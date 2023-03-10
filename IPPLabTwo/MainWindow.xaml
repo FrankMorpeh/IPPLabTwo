@@ -1,0 +1,21 @@
+﻿<Window x:Class="IPPLabTwo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPPLabTwo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid x:Name="road" KeyDown="Road_KeyDown">
+        <Grid.Background>
+            <ImageBrush ImageSource="pack://siteoforigin:,,,/SystemMedia/Images/Road.png"/>
+        </Grid.Background>
+
+        <Ellipse x:Name="redLight" Fill="Red" Height="25" Width="25" Margin="68,11,707,380" Visibility="Hidden"/>
+        <Ellipse x:Name="greenLight" Fill="Green" Height="25" Width="25" Margin="68,50,707,343"/>
+
+        <!--<Rectangle Fill="Orange" Height="50" Width="100" Margin="690,100,10,30"/>
+        <Rectangle Fill="DarkRed" Height="50" Width="100" Margin="690,354,10,30"/>-->
+    </Grid>
+</Window>
