@@ -4,11 +4,11 @@
     {
         sealed protected override double GetHeight()
         {
-            return 50;
+            return 25;
         }
         sealed protected override double GetWidth()
         {
-            return 100;
+            return 50;
         }
     }
 }

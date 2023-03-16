@@ -5,6 +5,16 @@ namespace IPPLabTwo.Builders.CarBuilders
 {
     public class RedCarBuilder : NormalCarBuilder
     {
+        private static int itsCarNumber;
+
+        static RedCarBuilder()
+        {
+            itsCarNumber = 1;
+        }
+        protected override string GetName()
+        {
+            return "RedCar" + itsCarNumber++;
+        }
         protected override Brush GetColor()
         {
             return Brushes.DarkRed;

@@ -17,13 +17,15 @@ namespace IPPLabTwo.Builders.CarBuilders
             //itsCar = new Rectangle();
         }
 
+        public void SetName()
+        {
+            itsCar.Name = GetName();
+            //itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Name = GetName(); }));
+        }
+        protected abstract string GetName();
+
         public void SetColor()
         {
-            //Application.Current.Dispatcher.Invoke((Action)delegate
-            //{
-            //    itsCar.Fill = GetColor();
-            //});
-
             //itsCar.Fill = GetColor();
             itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Fill = GetColor(); }));
         }
@@ -31,22 +33,22 @@ namespace IPPLabTwo.Builders.CarBuilders
 
         public void SetHeight()
         {
-            //itsCar.Height = GetHeight();
-            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Height = GetHeight(); }));
+            itsCar.Height = GetHeight();
+            //itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Height = GetHeight(); }));
         }
         protected abstract double GetHeight();
 
         public void SetWidth()
         {
-            //itsCar.Width = GetWidth();
-            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Width = GetWidth(); }));
+            itsCar.Width = GetWidth();
+            //itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Width = GetWidth(); }));
         }
         protected abstract double GetWidth();
 
         public void SetInitialLocation()
         {
-            //itsCar.Margin = GetMargin();
-            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Margin = GetMargin(); }));
+            itsCar.Margin = GetMargin();
+            //itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Margin = GetMargin(); }));
         }
         protected abstract Thickness GetMargin();
 

@@ -1,6 +1,9 @@
-﻿using IPPLabTwo.Controllers.RoadControllers;
+﻿using IPPLabTwo.Builders.CarBuilders;
+using IPPLabTwo.Controllers.RoadControllers;
 using IPPLabTwo.Views.RoadViews;
+using System;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace IPPLabTwo
 {
@@ -10,22 +13,22 @@ namespace IPPLabTwo
     public partial class MainWindow : Window
     {
         RoadController roadController;
-        RoadView roadView;
         public MainWindow()
         {
             InitializeComponent();
-            roadController = new RoadController();
-            roadView = new RoadView(roadController, road);
-            roadController.RoadView = roadView;
-            roadController.SetEventHandlers();
+        }
+        private void MainWindow_Loaded(object sender, EventArgs e)
+        {
+            roadController = new RoadController(this);
 
-            roadView.StartMovement();
+            roadController.StartMovementAsParallel();
+            road.Focus();
         }
 
         private void Road_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Space)
-                roadView.SwitchLight();
+                roadController.SwitchLight();
         }
     }
 }

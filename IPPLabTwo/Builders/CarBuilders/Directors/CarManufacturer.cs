@@ -7,6 +7,7 @@ namespace IPPLabTwo.Builders.CarBuilders
         public static Rectangle BuildCar(CarBuilder carBuilder)
         {
             carBuilder.CreateCar();
+            carBuilder.SetName();
             carBuilder.SetColor();
             carBuilder.SetHeight();
             carBuilder.SetWidth();

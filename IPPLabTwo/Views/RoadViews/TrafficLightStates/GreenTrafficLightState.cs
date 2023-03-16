@@ -13,7 +13,7 @@ namespace IPPLabTwo.Views.RoadViews.TrafficLightStates
         {
             itsGreenLight.Visibility = Visibility.Hidden;
             itsRedLight.Visibility = Visibility.Visible;
-            itsRoadController.StartMovement();
+            itsRoadController.StopMovement();
             trafficLightState = new RedTrafficLightState(itsRoadController, itsRedLight, itsGreenLight);
         }
     }
