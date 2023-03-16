@@ -29,17 +29,11 @@ namespace IPPLabTwo.Views.RoadViews
         }
         public void ShowNewCarOnRoad(Rectangle car)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
-            {
-                itsRoad.Children.Add(car);
-            });
+            itsRoad.Dispatcher.BeginInvoke(new Action(() => { itsRoad.Children.Add(car); }));
         }
         public void HideCarOnRoad(Rectangle car)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
-            {
-                itsRoad.Children.Remove(car);
-            });
+            itsRoad.Dispatcher.BeginInvoke(new Action(() => { itsRoad.Children.Remove(car); }));
         }
 
 

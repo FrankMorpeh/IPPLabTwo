@@ -9,9 +9,12 @@ namespace IPPLabTwo.Builders.CarBuilders
     {
         protected Rectangle itsCar;
 
+        public Rectangle Car { set { itsCar = value; } }
+
         public void CreateCar()
         {
-            itsCar = new Rectangle();
+            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar = new Rectangle(); }));
+            //itsCar = new Rectangle();
         }
 
         public void SetColor()
@@ -20,25 +23,30 @@ namespace IPPLabTwo.Builders.CarBuilders
             //{
             //    itsCar.Fill = GetColor();
             //});
-            itsCar.Fill = GetColor();
+
+            //itsCar.Fill = GetColor();
+            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Fill = GetColor(); }));
         }
         protected abstract Brush GetColor();
 
         public void SetHeight()
         {
-            itsCar.Height = GetHeight();
+            //itsCar.Height = GetHeight();
+            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Height = GetHeight(); }));
         }
         protected abstract double GetHeight();
 
         public void SetWidth()
         {
-            itsCar.Width = GetWidth();
+            //itsCar.Width = GetWidth();
+            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Width = GetWidth(); }));
         }
         protected abstract double GetWidth();
 
         public void SetInitialLocation()
         {
-            itsCar.Margin = GetMargin();
+            //itsCar.Margin = GetMargin();
+            itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Margin = GetMargin(); }));
         }
         protected abstract Thickness GetMargin();
 

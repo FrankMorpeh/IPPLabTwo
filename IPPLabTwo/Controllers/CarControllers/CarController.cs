@@ -15,6 +15,7 @@ namespace IPPLabTwo.Controllers.CarControllers
         private CarBuilder itsCarBuilder;
         private System.Timers.Timer itsCarMoveTimer;
         private Thread itsCarMoveTimerThread;
+        private Mutex itsCarsMutex;
         private ManualResetEvent itsMovementManualResetEvent;
         private bool itsStopRequested; // used for the cases when the traffic light is read, but the cars haven't reached the stop point
         private event Action<Rectangle> itsCarAddedEvent;
@@ -25,10 +26,12 @@ namespace IPPLabTwo.Controllers.CarControllers
             itsCars = new LinkedList<Rectangle>();
 
             itsCarBuilder = carBuilder;
+            itsCarBuilder.Car = new Rectangle(); // Car is initialized so as to allow to call Dispatcher further on
 
             itsCarMoveTimer = new System.Timers.Timer(1000);
             itsCarMoveTimer.Elapsed += CarMoveTimer_Elapsed;
             itsCarMoveTimerThread = new Thread(itsCarMoveTimer.Start);
+            itsCarsMutex = new Mutex();
 
             itsMovementManualResetEvent = new ManualResetEvent(false);
             itsMovementManualResetEvent.Set();
@@ -45,13 +48,19 @@ namespace IPPLabTwo.Controllers.CarControllers
         // Data handling
         public void AddCar()
         {
+            itsCarsMutex.WaitOne();
             itsCars.AddLast(CarManufacturer.BuildCar(itsCarBuilder));
+            itsCarsMutex.ReleaseMutex();
+
             itsCarAddedEvent(itsCars.Last.Value);
         }
         public void RemoveFirstCar()
         {
             itsCarRemovedEvent(itsCars.First.Value);
+
+            itsCarsMutex.WaitOne();
             itsCars.RemoveFirst();
+            itsCarsMutex.ReleaseMutex();
         }
 
 
@@ -66,9 +75,12 @@ namespace IPPLabTwo.Controllers.CarControllers
 
             Thickness carLocation = default;
             bool removeFirstCar = false;
+
+            itsCarsMutex.WaitOne();
             foreach (Rectangle car in itsCars)
             {
-                carLocation = car.Margin;
+                //carLocation = car.Margin; 
+                car.Dispatcher.BeginInvoke(new Action(() => { carLocation = car.Margin; }));
                 if (itsStopRequested && carLocation.Left > -490)
                 {
                     carLocation.Left -= 100;
@@ -78,6 +90,7 @@ namespace IPPLabTwo.Controllers.CarControllers
                 else
                     itsMovementManualResetEvent.Reset();
             }
+            itsCarsMutex.ReleaseMutex();
 
             AddCar(); // add a car in the end 
             if (removeFirstCar)
