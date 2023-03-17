@@ -136,7 +136,15 @@ namespace IPPLabTwo.Controllers.RoadControllers
                 {
                     itsCarMoveTimer.Stop();
                     itsResetMovementEvent = false;
-                    //itsMovementManualResetEvent.Reset();
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        Rectangle lastCar = ((Rectangle)(itsContent.road.Children[2]));
+                        Thickness lastCarLocation = lastCar.Margin;
+                        lastCarLocation.Left -= 100;
+                        lastCar.Margin = lastCarLocation;
+                        Thread.Sleep(1000);
+                    }
+                    RemoveFirstCar();
                 }
             }));
 
