@@ -22,6 +22,7 @@ namespace IPPLabTwo.Controllers.RoadControllers
         private ManualResetEvent itsMovementManualResetEvent;
         private bool itsStopRequested; // used for the cases when the traffic light is read, but the cars haven't reached the stop point
         private bool addNew = false;
+        private bool itsResetMovementEvent = false;
 
         public RoadController(MainWindow content)
         {
@@ -71,16 +72,22 @@ namespace IPPLabTwo.Controllers.RoadControllers
         {
             itsCarMoveTimerThread.Start();
         }
+        public void StartMovement()
+        {
+            itsCarMoveTimer.Start();
+        }
         private void CarMoveTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
+            itsCarsMutex.WaitOne();
+
             itsContent.Dispatcher.BeginInvoke(new Action(() => 
             {
                 itsMovementManualResetEvent.WaitOne();
 
                 Thickness carLocation = default;
                 bool removeFirstCar = false;
+                bool someCarIsInFrontOfTrafficLight = SomeCarIsInFrontOfTrafficLight();
 
-                itsCarsMutex.WaitOne();
                 foreach (object child in itsContent.road.Children)
                 {
                     //carLocation = car.Margin; 
@@ -88,33 +95,35 @@ namespace IPPLabTwo.Controllers.RoadControllers
                     {
                         Rectangle car = (Rectangle)child;
                         carLocation = car.Margin;
-                        if (carLocation.Left >= -490) // if a car didn't get to the final point or is on the final point in front of the traffic light
+                        if (!itsStopRequested)// if the traffic light is green, then just let it go
                         {
-                            if (!itsStopRequested) // if the traffic light is green, then just let it go
+                            carLocation.Left -= 100;
+                            car.Margin = carLocation;
+                            if (carLocation.Left == -1010)
+                                removeFirstCar = true;
+                        }
+                        else
+                        {
+                            if (carLocation.Left <= -810 || !someCarIsInFrontOfTrafficLight)
                             {
                                 carLocation.Left -= 100;
                                 car.Margin = carLocation;
-                                if (carLocation.Left == -790)
+                                if (carLocation.Left == -1010)
                                     removeFirstCar = true;
                             }
                             else
                             {
-                                if (carLocation.Left - 100 > -590)
+                                if (!removeFirstCar)
                                 {
-                                    carLocation.Left -= 100;
-                                    car.Margin = carLocation;
-                                }
-                                else
+                                    itsResetMovementEvent = true;
                                     break;
+                                }
                             }
                         }
-                        else
-                            itsMovementManualResetEvent.Reset();
                     }
                 }
-                itsCarsMutex.ReleaseMutex();
 
-                if (addNew == false)
+                if (addNew == false && itsResetMovementEvent == false)
                     addNew = true;
                 else if (addNew == true)
                 {
@@ -123,20 +132,45 @@ namespace IPPLabTwo.Controllers.RoadControllers
                 }
                 if (removeFirstCar)
                     RemoveFirstCar(); // remove the first car if it's passed through the traffic light
+                if (itsResetMovementEvent)
+                {
+                    itsCarMoveTimer.Stop();
+                    //itsMovementManualResetEvent.Reset();
+                }
             }));
-            
+
+            itsCarsMutex.ReleaseMutex();
+        }
+        private bool SomeCarIsInFrontOfTrafficLight()
+        {
+            bool someCarIsInFrontOfTrafficLight = false;
+            foreach (object roadObject in itsContent.road.Children)
+            {
+                if (roadObject is Rectangle)
+                {
+                    Rectangle car = (Rectangle)roadObject;
+                    if (car.Margin.Left == -710)
+                    {
+                        someCarIsInFrontOfTrafficLight = true;
+                        break;
+                    }
+                }
+            }
+            return someCarIsInFrontOfTrafficLight;
         }
         public void StopMovement()
         {
-            if (((Rectangle)(itsContent.road.Children[2])).Margin.Left > -490)
-                itsStopRequested = true;
-            else
-                itsMovementManualResetEvent.Reset();
+            //if (((Rectangle)(itsContent.road.Children[2])).Margin.Left > -490)
+            //    itsStopRequested = true;
+            //else
+            //    itsMovementManualResetEvent.Reset();
+            itsStopRequested = true;
         }
         public void AllowMovement()
         {
             itsStopRequested = false;
-            itsMovementManualResetEvent.Set();
+            itsCarMoveTimer.Start();
+            //itsMovementManualResetEvent.Set();
         }
 
         public void SwitchLight()

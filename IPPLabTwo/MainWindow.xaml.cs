@@ -21,7 +21,7 @@ namespace IPPLabTwo
         {
             roadController = new RoadController(this);
 
-            roadController.StartMovementAsParallel();
+            roadController.StartMovement();
             road.Focus();
         }
 
