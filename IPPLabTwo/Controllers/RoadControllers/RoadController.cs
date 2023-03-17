@@ -95,7 +95,7 @@ namespace IPPLabTwo.Controllers.RoadControllers
                     {
                         Rectangle car = (Rectangle)child;
                         carLocation = car.Margin;
-                        if (!itsStopRequested)// if the traffic light is green, then just let it go
+                        if (!itsStopRequested) // if the traffic light is green, then just let it go
                         {
                             carLocation.Left -= 100;
                             car.Margin = carLocation;
@@ -135,6 +135,7 @@ namespace IPPLabTwo.Controllers.RoadControllers
                 if (itsResetMovementEvent)
                 {
                     itsCarMoveTimer.Stop();
+                    itsResetMovementEvent = false;
                     //itsMovementManualResetEvent.Reset();
                 }
             }));
