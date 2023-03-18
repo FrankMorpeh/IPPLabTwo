@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:IPPLabTwo"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
+        ResizeMode="NoResize"
         Loaded="MainWindow_Loaded">
 
     <Grid x:Name="road" KeyDown="Road_KeyDown" Focusable="True">
@@ -13,8 +14,8 @@
             <ImageBrush ImageSource="pack://siteoforigin:,,,/SystemMedia/Images/Road.png"/>
         </Grid.Background>
 
-        <Ellipse x:Name="redLight" Fill="Red" Height="25" Width="25" Margin="68,11,707,380" Visibility="Hidden"/>
-        <Ellipse x:Name="greenLight" Fill="Green" Height="25" Width="25" Margin="68,50,707,343"/>
+        <Ellipse x:Name="redLight" Fill="Red" Margin="68,24,695,375" RenderTransformOrigin="0.5,0.501" Visibility="Hidden"/>
+        <Ellipse x:Name="greenLight" Fill="Green" Margin="68,64,695,335" RenderTransformOrigin="0.5,0.501"/>
 
         <!--<Rectangle Fill="Orange" Height="50" Width="100" Margin="690,100,10,30"/>
         <Rectangle Fill="DarkRed" Height="50" Width="100" Margin="690,354,10,30"/>-->
