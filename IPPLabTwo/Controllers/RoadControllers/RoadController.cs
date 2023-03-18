@@ -1,12 +1,9 @@
 ﻿using IPPLabTwo.Builders.CarBuilders;
-using IPPLabTwo.Views.RoadViews;
 using IPPLabTwo.Views.RoadViews.TrafficLightStates;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace IPPLabTwo.Controllers.RoadControllers
@@ -169,17 +166,12 @@ namespace IPPLabTwo.Controllers.RoadControllers
         }
         public void StopMovement()
         {
-            //if (((Rectangle)(itsContent.road.Children[2])).Margin.Left > -490)
-            //    itsStopRequested = true;
-            //else
-            //    itsMovementManualResetEvent.Reset();
             itsStopRequested = true;
         }
         public void AllowMovement()
         {
             itsStopRequested = false;
             itsCarMoveTimer.Start();
-            //itsMovementManualResetEvent.Set();
         }
 
         public void SwitchLight()
