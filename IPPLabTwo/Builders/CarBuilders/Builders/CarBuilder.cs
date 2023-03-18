@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -29,7 +30,7 @@ namespace IPPLabTwo.Builders.CarBuilders
             //itsCar.Fill = GetColor();
             itsCar.Dispatcher.BeginInvoke(new Action(() => { itsCar.Fill = GetColor(); }));
         }
-        protected abstract Brush GetColor();
+        protected abstract ImageBrush GetColor();
 
         public void SetHeight()
         {

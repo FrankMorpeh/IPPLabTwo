@@ -13,9 +13,15 @@ namespace IPPLabTwo
     public partial class MainWindow : Window
     {
         RoadController roadController;
+        public static string initialLocation;
         public MainWindow()
         {
             InitializeComponent();
+        }
+        static MainWindow()
+        {
+            initialLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            initialLocation = System.IO.Path.GetDirectoryName(initialLocation);
         }
         private void MainWindow_Loaded(object sender, EventArgs e)
         {

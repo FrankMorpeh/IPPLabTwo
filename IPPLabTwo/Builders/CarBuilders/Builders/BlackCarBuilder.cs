@@ -1,23 +1,25 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace IPPLabTwo.Builders.CarBuilders
 {
-    public class OrangeCarBuilder : NormalCarBuilder
+    public class BlackCarBuilder : NormalCarBuilder
     {
         private static int itsCarNumber;
 
-        static OrangeCarBuilder()
+        static BlackCarBuilder()
         {
             itsCarNumber = 1;
         }
         protected override string GetName()
         {
-            return "OrangeCar" + itsCarNumber++;
+            return "BlackCar" + itsCarNumber++;
         }
-        protected override Brush GetColor()
+        protected override ImageBrush GetColor()
         {
-            return Brushes.Orange;
+            return new ImageBrush() { ImageSource = new BitmapImage(new System.Uri(MainWindow.initialLocation + "\\SystemMedia\\Images\\BlackCar.png")) };
         }
         protected override Thickness GetMargin()
         {

@@ -31,7 +31,7 @@ namespace IPPLabTwo.Controllers.RoadControllers
             itsTrafficLightState = new GreenTrafficLightState(this, (Ellipse)itsContent.road.FindName("redLight")
                 , (Ellipse)itsContent.road.FindName("greenLight"));
 
-            itsCarBuilder = new OrangeCarBuilder();
+            itsCarBuilder = new BlackCarBuilder();
             itsCarBuilder.Car = new Rectangle();
             itsCarMoveTimer = new System.Timers.Timer(1000);
             itsCarMoveTimer.Elapsed += CarMoveTimer_Elapsed;
